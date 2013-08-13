@@ -1,0 +1,13 @@
+body {
+	margin: 0;
+}
+
+.CodeMirror {
+	height: 100%;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.CodeMirror-activeline-background {
+	background: #e8f2ff !important;
+}

@@ -25,6 +25,89 @@ kottiimage_plugin = Resource(library,
                              "kottiimage_plugin.js",
                              depends=[tinymce, ])
 
+codemirror_plugin = Resource(library,
+                             "plugins/codemirror/plugin.js",
+                             depends=[tinymce, ])
+
+codemirror_source_css = Resource(
+        library,
+        "codemirror_source.css",
+        depends=[tinymce, ])
+
+codemirror_source_js = Resource(
+        library,
+        "codemirror_source.js",
+        depends=[tinymce, ])
+
+codemirror_lib_js = Resource(
+        library,
+        "plugins/codemirror/CodeMirror/lib/codemirror.js",
+        depends=[tinymce, ])
+
+codemirror_matchbrackets_js = Resource(
+        library,
+        "plugins/codemirror/CodeMirror/addon/edit/matchbrackets.js",
+        depends=[tinymce, ])
+
+codemirror_htmlmixed_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/htmlmixed/htmlmixed.js',
+        depends=[tinymce, ])
+
+codemirror_xml_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/xml/xml.js',
+        depends=[tinymce, ])
+
+codemirror_javascript_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/javascript/javascript.js',
+        depends=[tinymce, ])
+
+codemirror_css_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/css/css.js',
+        depends=[tinymce, ])
+
+codemirror_clike_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/clike/clike.js',
+        depends=[tinymce, ])
+
+codemirror_php_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/mode/php/php.js',
+        depends=[tinymce, ])
+
+codemirror_dialog_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/addon/dialog/dialog.js',
+        depends=[tinymce, ])
+
+codemirror_searchcursor_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/addon/search/searchcursor.js',
+        depends=[tinymce, ])
+
+codemirror_search_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/addon/search/search.js',
+        depends=[tinymce, ])
+
+codemirror_ative_line_js = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/addon/selection/active-line.js',
+        depends=[tinymce, ])
+
+codemirror_css = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/lib/codemirror.css',
+        depends=[tinymce, ])
+
+codemirror_dialog_css = Resource(
+        library,
+        'plugins/codemirror/CodeMirror/addon/dialog/dialog.css',
+        depends=[tinymce, ])
 
 @view_defaults(context=Content,
                request_method="GET")
@@ -87,6 +170,31 @@ class KottiTinyMCE():
             "image_url": self.request.resource_url(self.context) + 'image/span1',
             # TODO: upload_allowed needs a better check.
             "upload_allowed": self.context.type == 'document',
+        }
+
+    @view_config(name="codemirrorsource",
+                 renderer="kotti_tinymce:templates/codemirror_source.pt")
+    def codemirror_source(self):
+
+        codemirror_source_css.need()
+        codemirror_source_js.need()
+
+        codemirror_lib_js.need()
+        codemirror_matchbrackets_js.need()
+        codemirror_htmlmixed_js.need()
+        codemirror_xml_js.need()
+        codemirror_javascript_js.need()
+        codemirror_css_js.need()
+        codemirror_clike_js.need()
+        codemirror_php_js.need()
+        codemirror_dialog_js.need()
+        codemirror_searchcursor_js.need()
+        codemirror_search_js.need()
+        codemirror_ative_line_js.need()
+        codemirror_css.need()
+        codemirror_dialog_css.need()
+
+        return {
         }
 
     @view_config(name="kottibrowser",
@@ -154,6 +262,7 @@ def includeme(config):
         from js.deform import resource_mapping
         edit_needed = resource_mapping['tinymce'].append(kotti_tinymce)
         resource_mapping['tinymce'].append(kottiimage_plugin)
+        resource_mapping['tinymce'].append(codemirror_plugin)
     except ImportError:  # pragma: no cover
         # kotti < 0.8
         from kotti.static import edit_needed
